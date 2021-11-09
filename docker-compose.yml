@@ -1,0 +1,24 @@
+services:
+  database:
+    image: questdb/questdb
+    ports:
+      - "9000:9000"
+      - "8812:8812"
+    volumes:
+      - "./data/questdb:/root/.questdb/"
+    networks:
+     - backend
+  manager:
+    image: bytebase/bytebase:0.7.2
+    ports:
+      - "8080:8080"
+    command:
+      - "--data=/var/opt/bytebase"
+      - "--host=http://localhost"
+      - "--port=8080"
+    volumes:
+      - "./data/bytebase:/var/opt/bytebase"
+    networks:
+      - backend
+networks:
+  backend: {}
